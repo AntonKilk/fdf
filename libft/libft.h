@@ -6,7 +6,7 @@
 /*   By: akilk <akilk@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 13:26:14 by akilk             #+#    #+#             */
-/*   Updated: 2022/03/10 11:14:00 by akilk            ###   ########.fr       */
+/*   Updated: 2022/03/14 09:52:26 by akilk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ int		ft_swap(int *a, int *b);
 void	ft_foreach(int *tab, int length, void (*f)(int));
 void	ft_lstrev(t_list **alst);
 int		ft_count_words(const char *s, char c);
+char	**ft_free_tab(char **tab, int x);
 
 #endif

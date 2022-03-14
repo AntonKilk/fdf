@@ -6,7 +6,7 @@
 #    By: akilk <akilk@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/01 13:25:11 by akilk             #+#    #+#              #
-#    Updated: 2022/03/10 11:09:52 by akilk            ###   ########.fr        #
+#    Updated: 2022/03/14 09:58:55 by akilk            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,7 @@ SRC = ft_atoi.c\
 			ft_foreach.c\
 			get_next_line.c\
 			ft_count_words.c\
+			ft_free_tab.c\
 
 OBJ = $(SRC:.c=.o)
 

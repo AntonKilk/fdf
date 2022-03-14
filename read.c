@@ -6,25 +6,11 @@
 /*   By: akilk <akilk@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:01:12 by akilk             #+#    #+#             */
-/*   Updated: 2022/03/11 07:31:15 by akilk            ###   ########.fr       */
+/*   Updated: 2022/03/14 10:19:36 by akilk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-/* Free char **nums  */
-
-static char	**free_tab(char **tab, int x)
-{
-	while (x >= 0)
-	{
-		if (tab[x])
-			free (tab[x]);
-		x--;
-	}
-	free (tab);
-	return (NULL);
-}
 
 /* Free the list of pointers */
 
@@ -57,9 +43,11 @@ static int	*str2int(char *str, int w)
 	while (nums[i])
 	{
 		num_row[i] = ft_atoi(nums[i]);
+		if (num_row[i] > 999999)
+			return (NULL);
 		i++;
 	}
-	free_tab(nums, i);
+	ft_free_tab(nums, i);
 	return (num_row);
 }
 
@@ -80,11 +68,18 @@ static int	**fill_matrix(t_list *start, int h, int w)
 	while (start)
 	{
 		data[i] = str2int(*(char **)start->content, w);
+		if (!data[i])
+			return (NULL);
 		start = start->next;
 		i++;
 	}
 	ft_lstdel(&start, free_lst);
 	return (data);
+}
+
+int	get_width(char *line)
+{
+	return (ft_count_words(line, ' '));
 }
 
 /*
@@ -97,26 +92,24 @@ static int	**fill_matrix(t_list *start, int h, int w)
 int	**read_fdf(int fd, t_fdf *data)
 {
 	t_list	*start;
-	int		h;
-	int		w;
 	char	*line;
 	int		ret;
 
-	h = 0;
+	data->height = 0;
 	start = NULL;
 	line = NULL;
 	ret = get_next_line(fd, &line);
 	if (ret < 0)
 		return (NULL);
+	data->width = get_width(line);
 	while (ret)
 	{
-		w = ft_count_words(line, ' ');
+		if (get_width(line) != data->width)
+			return (NULL);
 		ft_lstadd(&start, ft_lstnew(&line, sizeof(char *)));
-		h++;
+		data->height++;
 		ret = get_next_line(fd, &line);
 	}
-	data->height = h;
-	data->width = w;
 	ft_lstrev(&start);
-	return (fill_matrix(start, h, w));
+	return (fill_matrix(start, data->height, data->width));
 }
